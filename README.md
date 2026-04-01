@@ -109,7 +109,6 @@ pip install -r requirements.txt
 
 ## 🖼️ Proototype setup used to collect data and irrigate tomato plant.
 ![Hardware Setup](assets/greenhouse_prototype.jpeg)
-![Hardware Setup](assets/IMG_20260315_114404.jpg.jpeg)
 ![Hardware Setup](assets/IMG_20260315_114544.jpg.jpeg)
 
 ## 📊 Dashboard
