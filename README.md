@@ -34,6 +34,66 @@ Due to size constraints, the following model files are not included in this repo
 
 Place them inside the `weights/` folder before running the project.
 
+
+
+---
+
+## 🔌 Hardware Setup & Real-Time Data Flow
+
+This system integrates IoT hardware with the web application to enable real-time environmental monitoring and automated irrigation control.
+
+### 🧰 Components Used
+
+- 🍓 Raspberry Pi 4  
+- 🌡️ DHT11 Temperature & Humidity Sensor (GPIO)  
+- 🌱 Soil Moisture Sensor + ADC (I2C)  
+- 💧 Submersible Water Pump  
+- 🌬️ Ventilation Fan  
+- 🔌 2-Channel Relay Module (for pump & fan control)
+
+---
+
+### ⚙️ Hardware Connections
+
+- **DHT11 Sensor** → Connected via GPIO pins to read temperature and humidity  
+- **Soil Moisture Sensor** → Connected through ADC using I2C communication  
+- **Relay Module**:
+  - Channel 1 → Water Pump  
+  - Channel 2 → Ventilation Fan  
+- Raspberry Pi controls actuators based on model predictions
+
+---
+
+### 🔄 Data Flow
+
+1. Sensors connected to the Raspberry Pi continuously collect:
+   - Temperature  
+   - Humidity  
+   - Soil moisture  
+
+2. The Raspberry Pi processes this data and sends it to **ThingSpeak** using API requests  
+
+3. The web application fetches real-time data from ThingSpeak:
+   - Displays live sensor readings  
+   - Updates dashboard visualizations  
+
+4. The irrigation machine learning model uses this data to:
+   - Predict optimal irrigation timing  
+   - Control actuators (pump & fan)  
+
+---
+
+### ☁️ ThingSpeak Integration
+
+- 📡 Data is uploaded from Raspberry Pi → ThingSpeak Channel  
+- 🌐 Web app reads data via ThingSpeak API  
+- 🔁 Enables real-time synchronization between hardware and dashboard  
+
+---
+
+### 🌿 System Overview
+
+
 ---
 
 ## ⚙️ Prerequisites
