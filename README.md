@@ -15,7 +15,7 @@ This web application uses separately trained models. You can find the training c
   👉 [Nutrient Deficiency Training Code](https://github.com/sriram-mahendran/fyp-tomato_leaf_nutrient_deficiency_classification)
 
 - 📈 Growth Estimation (YOLO-based Detection)  
-  👉 [Growth Estimation Training Code](YOUR_LINK_HERE)
+  👉 [Growth Estimation Training Code](https://github.com/sriram-mahendran/fyp-cv_growth_estimation_yolo_tomato_detection)
 
 - 💧 Irrigation Prediction (Random Forest Model)  
   👉 [Irrigation Prediction Training Code](YOUR_LINK_HERE)
