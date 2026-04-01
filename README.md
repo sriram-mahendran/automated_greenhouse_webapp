@@ -9,7 +9,7 @@ This web application uses trained deep learning and computer vision models to de
 This web application uses separately trained models. You can find the training code below:
 
 - 🌿 Disease Detection (Faster R-CNN + FPN + EfficientNet-B4)  
-  👉 [Disease Detection Training Code](YOUR_LINK_HERE)
+  👉 [Disease Detection Training Code](https://drive.google.com/drive/folders/1o69ZRhzx-y7Piha3jpoV7FIdCShSNY0y?usp=sharing)
 
 - 🧪 Nutrient Deficiency Detection (EfficientNet-B0)  
   👉 [Nutrient Deficiency Training Code](YOUR_LINK_HERE)
