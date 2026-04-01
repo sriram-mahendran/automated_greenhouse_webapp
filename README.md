@@ -111,6 +111,16 @@ pip install -r requirements.txt
 ![Hardware Setup](assets/setup.jpg)
 
 ## 📊 Dashboard
-![Dashboard](assets/dashboard.png)
+![Dashboard](assets/dashboard1.png)
+## 📊 Dashboard
+![Dashboard](assets/dashboard2.png)
+## 📊 Dashboard
+![Dashboard](assets/dashboard3.png)
+## 📊 Dashboard
+![Dashboard](assets/dashboard4.png)
+## 📊 Dashboard
+![Dashboard](assets/dashboard5.png)
+## 📊 Dashboard
+![Dashboard](assets/dashboard6.png)
 
 
