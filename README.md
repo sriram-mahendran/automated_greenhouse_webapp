@@ -12,7 +12,7 @@ This web application uses separately trained models. You can find the training c
   👉 [Disease Detection Training Code](https://github.com/sriram-mahendran/fyp-tomato_leaf_disease_localization_detection)
 
 - 🧪 Nutrient Deficiency Detection (EfficientNet-B0)  
-  👉 [Nutrient Deficiency Training Code](YOUR_LINK_HERE)
+  👉 [Nutrient Deficiency Training Code](https://github.com/sriram-mahendran/fyp-tomato_leaf_nutrient_deficiency_classification)
 
 - 📈 Growth Estimation (YOLO-based Detection)  
   👉 [Growth Estimation Training Code](YOUR_LINK_HERE)
