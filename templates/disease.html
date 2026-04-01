@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tomato Disease Detection</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+
+body{
+font-family:'Inter',sans-serif;
+background:#eef6e8;
+color:#1f3a2b;
+}
+
+/* Sidebar */
+
+.sidebar{
+background:linear-gradient(145deg,#204d2a,#2a5e36);
+min-height:100vh;
+color:white;
+padding:25px;
+}
+
+.sidebar h4{
+margin-bottom:25px;
+}
+
+.sidebar a{
+display:block;
+padding:12px 15px;
+margin:6px 0;
+color:#daf5cf;
+text-decoration:none;
+border-radius:10px;
+}
+
+.sidebar a:hover{
+background:#3c7247;
+}
+
+
+/* Main */
+
+.main-panel{
+padding:30px;
+}
+
+
+/* Cards */
+
+.card-box{
+background:white;
+border-radius:18px;
+padding:25px;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+
+/* Upload box */
+
+.upload-box{
+border:2px dashed #4caf50;
+border-radius:15px;
+padding:40px;
+width:420px;
+margin:auto;
+background:#f8fff6;
+cursor:pointer;
+transition:0.2s;
+text-align:center;
+}
+
+.upload-box:hover{
+background:#eefbe9;
+}
+
+.upload-box p{
+margin:5px;
+}
+
+
+/* Images */
+
+img{
+border-radius:12px;
+max-width:100%;
+}
+
+
+/* Disease list */
+
+#list li{
+font-size:16px;
+margin-bottom:6px;
+}
+
+
+/* Loading Overlay */
+
+#loadingOverlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.45);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+
+.loader-container{
+text-align:center;
+color:white;
+}
+
+.bars{
+display:flex;
+gap:6px;
+justify-content:center;
+margin-bottom:10px;
+}
+
+.bars div{
+width:8px;
+height:35px;
+background:#8cff8c;
+animation:barsMove 1s infinite;
+}
+
+.bars div:nth-child(2){animation-delay:0.1s}
+.bars div:nth-child(3){animation-delay:0.2s}
+.bars div:nth-child(4){animation-delay:0.3s}
+.bars div:nth-child(5){animation-delay:0.4s}
+
+@keyframes barsMove{
+
+0%{transform:scaleY(0.4);}
+50%{transform:scaleY(1);}
+100%{transform:scaleY(0.4);}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container-fluid">
+
+<div class="row">
+
+<!-- Sidebar -->
+
+<div class="col-md-2 sidebar">
+
+<h4><i class="fas fa-seedling"></i> Greenhouse</h4>
+
+<hr>
+
+<a href="/"><i class="fas fa-gauge"></i> Dashboard</a>
+<a href="/sensors"><i class="fas fa-microchip"></i> Sensors</a>
+<a href="/growth"><i class="fas fa-chart-line"></i> Growth Analyzer</a>
+<a href="/disease"><i class="fas fa-leaf"></i> Disease Detection</a>
+<a href="/deficiency"><i class="fas fa-flask"></i> Nutrient Deficiency</a>
+<a href="/irrigation"><i class="fas fa-water"></i> Irrigation</a>
+
+</div>
+
+
+<!-- Main -->
+
+<div class="col-md-10 main-panel">
+
+<h2>Tomato Disease Detection</h2>
+
+
+<!-- Upload -->
+
+<div class="card-box mt-4 text-center">
+
+<h5 class="mb-3">Upload Tomato Leaf</h5>
+
+<div id="dropArea" class="upload-box">
+
+<p><i class="fas fa-cloud-upload-alt fa-2x"></i></p>
+
+<p><b>Drag & Drop Image Here</b></p>
+
+<p>or</p>
+
+<input type="file" id="image" hidden>
+
+<button class="btn btn-success" onclick="document.getElementById('image').click()">
+Choose File
+</button>
+
+</div>
+
+<button class="btn btn-primary mt-3" onclick="detect()">
+Analyze
+</button>
+
+</div>
+
+
+<!-- Results -->
+
+<div class="row mt-4">
+
+<div class="col-md-6">
+
+<div class="card-box text-center">
+
+<h5>Uploaded Image</h5>
+
+<img id="preview">
+
+</div>
+
+</div>
+
+
+<div class="col-md-6">
+
+<div class="card-box">
+
+<h5>Detected Diseases</h5>
+
+<div id="list"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="row mt-4">
+
+<div class="col-md-12">
+
+<div class="card-box text-center">
+
+<h5>Detection Result</h5>
+
+<img id="output">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+<!-- Loading Overlay -->
+
+<div id="loadingOverlay">
+
+<div class="loader-container">
+
+<div class="bars">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+
+<p>Analyzing leaf...</p>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+let dropArea = document.getElementById("dropArea")
+let fileInput = document.getElementById("image")
+
+
+
+dropArea.addEventListener("dragover",(e)=>{
+e.preventDefault()
+dropArea.style.background="#e6f9e2"
+})
+
+
+dropArea.addEventListener("dragleave",()=>{
+dropArea.style.background="#f8fff6"
+})
+
+
+dropArea.addEventListener("drop",(e)=>{
+
+e.preventDefault()
+
+fileInput.files = e.dataTransfer.files
+
+previewImage()
+
+dropArea.style.background="#f8fff6"
+
+})
+
+
+fileInput.addEventListener("change",previewImage)
+
+
+
+function previewImage(){
+
+let file=fileInput.files[0]
+
+if(!file) return
+
+document.getElementById("preview").src = URL.createObjectURL(file)
+
+}
+
+
+const diseaseInfo = {
+
+"Early Blight": {
+cause:"Caused by the fungus Alternaria solani. Usually appears when humidity is high and plants are stressed.",
+fix:"Remove infected leaves, improve air circulation, and apply fungicides like chlorothalonil or copper-based sprays."
+},
+
+"Black Spot": {
+cause:"Caused by fungal pathogens thriving in wet and humid conditions.",
+fix:"Avoid overhead watering, prune infected leaves, and apply appropriate fungicides."
+},
+
+"Leaf Mold": {
+cause:"Caused by Passalora fulva fungus which develops in high humidity and poor ventilation.",
+fix:"Improve greenhouse ventilation, reduce humidity, and apply fungicides if needed."
+},
+
+"Bacterial Spot": {
+cause:"Caused by Xanthomonas bacteria spread by water splashes and contaminated tools.",
+fix:"Use disease-free seeds, avoid overhead watering, remove infected plants, and apply copper bactericides."
+},
+
+"Target Spot": {
+cause:"Caused by Corynespora cassiicola fungus, commonly appearing in warm humid climates.",
+fix:"Improve air flow, avoid wet leaves, and apply fungicides."
+},
+
+"Late Blight": {
+cause:"Caused by Phytophthora infestans. Spreads rapidly in cool and moist environments.",
+fix:"Remove infected plants immediately, apply protective fungicides, and maintain dry foliage."
+},
+
+"Healthy": {
+cause:"No disease detected.",
+fix:"Maintain proper irrigation, nutrient balance, and greenhouse hygiene."
+}
+
+}
+function detect(){
+
+let file=fileInput.files[0]
+
+if(!file) return
+
+document.getElementById("loadingOverlay").style.display="flex"
+
+let form=new FormData()
+form.append("image",file)
+
+fetch("/api/disease",{
+method:"POST",
+body:form
+})
+
+.then(r=>r.json())
+
+.then(data=>{
+
+document.getElementById("loadingOverlay").style.display="none"
+
+document.getElementById("output").src = data.image + "?t=" + new Date().getTime()
+
+let container=document.getElementById("list")
+container.innerHTML=""
+
+/* -------- GROUP DISEASES -------- */
+
+let grouped={}
+
+data.diseases.forEach(d=>{
+
+if(!grouped[d.disease]){
+grouped[d.disease]={
+count:0,
+confidence:0
+}
+}
+
+grouped[d.disease].count++
+
+if(d.confidence > grouped[d.disease].confidence){
+grouped[d.disease].confidence=d.confidence
+}
+
+})
+
+
+/* -------- CREATE CARDS -------- */
+
+Object.keys(grouped).forEach(disease=>{
+
+let info=diseaseInfo[disease] || {
+cause:"No information available",
+fix:"Consult agricultural expert"
+}
+
+let confidence=(grouped[disease].confidence*100).toFixed(2)
+
+let spots=grouped[disease].count
+
+let color="green"
+let badge="Low"
+
+if(confidence>=80){
+color="red"
+badge="High"
+}
+else if(confidence>=50){
+color="orange"
+badge="Medium"
+}
+
+let card=document.createElement("div")
+
+card.style.background="#f6ffee"
+card.style.padding="15px"
+card.style.borderRadius="12px"
+card.style.marginBottom="12px"
+card.style.borderLeft="6px solid "+color
+
+card.innerHTML=`
+<h6>
+${disease}
+
+<span style="
+background:${color};
+color:white;
+padding:3px 8px;
+border-radius:6px;
+font-size:12px;
+margin-left:6px;">
+${badge}
+</span>
+
+</h6>
+
+<p><b>Confidence:</b> ${confidence}%</p>
+
+<p><b>Detected Spots:</b> ${spots}</p>
+
+<p><b>Cause:</b> ${info.cause}</p>
+
+<p><b>Recommended Fix:</b> ${info.fix}</p>
+`
+
+container.appendChild(card)
+
+})
+
+})
+
+}
+</script>
+
+
+</body>
+</html>

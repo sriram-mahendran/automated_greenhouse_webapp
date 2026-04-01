@@ -1,0 +1,31 @@
+body{
+background:#f5f7fa;
+font-family:Arial;
+}
+
+.dashboard-card{
+
+padding:40px;
+border-radius:15px;
+text-decoration:none;
+color:black;
+transition:0.3s;
+box-shadow:0 10px 20px rgba(0,0,0,0.1);
+
+}
+
+.dashboard-card:hover{
+
+transform:scale(1.05);
+background:#e9f5ff;
+
+}
+
+.upload-box{
+
+border:2px dashed #aaa;
+padding:30px;
+border-radius:10px;
+text-align:center;
+
+}

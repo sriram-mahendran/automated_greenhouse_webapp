@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nutrient Deficiency Detection</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+
+body{
+font-family:'Inter',sans-serif;
+background:#eef6e8;
+color:#1f3a2b;
+}
+
+/* Sidebar */
+
+.sidebar{
+background:linear-gradient(145deg,#204d2a,#2a5e36);
+min-height:100vh;
+color:white;
+padding:25px;
+}
+
+.sidebar h4{
+margin-bottom:25px;
+}
+
+.sidebar a{
+display:block;
+padding:12px 15px;
+margin:6px 0;
+color:#daf5cf;
+text-decoration:none;
+border-radius:10px;
+}
+
+.sidebar a:hover{
+background:#3c7247;
+}
+
+
+/* Main */
+
+.main-panel{
+padding:30px;
+}
+
+
+/* Cards */
+
+.card-box{
+background:white;
+border-radius:18px;
+padding:25px;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+
+/* Upload box */
+
+.upload-box{
+border:2px dashed #4caf50;
+border-radius:15px;
+padding:40px;
+width:420px;
+margin:auto;
+background:#f8fff6;
+cursor:pointer;
+transition:0.2s;
+}
+
+.upload-box:hover{
+background:#eefbe9;
+}
+
+.upload-box p{
+margin:5px;
+}
+
+
+/* Image */
+
+img{
+border-radius:12px;
+max-width:100%;
+}
+
+/* Loading Overlay */
+
+#loadingOverlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.45);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+
+
+/* Loader */
+
+.loader-container{
+text-align:center;
+color:white;
+}
+
+
+/* Bars */
+
+.bars{
+display:flex;
+gap:6px;
+justify-content:center;
+margin-bottom:10px;
+}
+
+.bars div{
+width:8px;
+height:35px;
+background:#8cff8c;
+animation:barsMove 1s infinite;
+}
+
+.bars div:nth-child(2){animation-delay:0.1s}
+.bars div:nth-child(3){animation-delay:0.2s}
+.bars div:nth-child(4){animation-delay:0.3s}
+.bars div:nth-child(5){animation-delay:0.4s}
+
+
+/* Animation */
+
+@keyframes barsMove{
+
+0%{
+transform:scaleY(0.4);
+}
+
+50%{
+transform:scaleY(1);
+}
+
+100%{
+transform:scaleY(0.4);
+}
+
+}
+
+</style>
+
+</head>
+
+<div id="loadingOverlay">
+
+<div class="loader-container">
+
+<div class="bars">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+
+<p>Analyzing leaf...</p>
+
+</div>
+
+</div>
+
+<body>
+
+<div class="container-fluid">
+
+<div class="row">
+
+<!-- Sidebar -->
+
+<div class="col-md-2 sidebar">
+
+<h4><i class="fas fa-seedling"></i> Greenhouse</h4>
+
+<hr>
+
+<a href="/"><i class="fas fa-gauge"></i> Dashboard</a>
+<a href="/sensors"><i class="fas fa-microchip"></i> Sensors</a>
+<a href="/growth"><i class="fas fa-chart-line"></i> Growth Analyzer</a>
+<a href="/disease"><i class="fas fa-leaf"></i> Disease Detection</a>
+<a href="/deficiency"><i class="fas fa-flask"></i> Nutrient Deficiency</a>
+<a href="/irrigation"><i class="fas fa-water"></i> Irrigation</a>
+
+</div>
+
+
+<!-- Main Panel -->
+
+<div class="col-md-10 main-panel">
+
+<h2>Nutrient Deficiency Detection</h2>
+
+
+<!-- Upload Section -->
+
+<div class="card-box mt-4 text-center">
+
+<h5 class="mb-3">Upload Leaf Image</h5>
+
+<div id="dropArea" class="upload-box">
+
+<p><i class="fas fa-cloud-upload-alt fa-2x"></i></p>
+
+<p><b>Drag & Drop Image Here</b></p>
+
+<p>or</p>
+
+<input type="file" id="image" hidden>
+
+<button class="btn btn-success" onclick="document.getElementById('image').click()">
+Choose File
+</button>
+
+</div>
+
+<button class="btn btn-primary mt-3" onclick="predict()">
+Analyze
+</button>
+
+</div>
+
+
+<!-- Results -->
+
+<div class="row mt-4">
+
+<!-- Uploaded Image -->
+
+<div class="col-md-6">
+
+<div class="card-box text-center">
+
+<h5>Uploaded Image</h5>
+
+<img id="preview">
+
+</div>
+
+</div>
+
+
+<!-- Diagnosis -->
+
+<div class="col-md-6">
+
+<div class="card-box">
+
+<h5>Diagnosis</h5>
+
+<h4 id="result"></h4>
+
+<p id="cause"></p>
+
+<p id="solution"></p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+
+<script>
+
+const info = {
+
+"magnesium":{
+title:"Magnesium Deficiency",
+cause:"Occurs due to poor soil magnesium levels, high potassium competition, or acidic soils.",
+solution:"Apply magnesium sulfate (Epsom salt) or dolomitic lime and maintain balanced fertilization."
+},
+
+"potassium":{
+title:"Potassium Deficiency",
+cause:"Caused by insufficient potassium in soil or excessive nitrogen fertilization.",
+solution:"Apply potassium fertilizers like potassium sulfate or potassium nitrate."
+},
+
+"nitrogen":{
+title:"Nitrogen Deficiency",
+cause:"Occurs when nitrogen availability in soil is low or organic matter is insufficient.",
+solution:"Apply nitrogen fertilizers such as urea, ammonium nitrate, or organic compost."
+},
+
+"healthy":{
+title:"Healthy Plant",
+cause:"No nutrient deficiency detected.",
+solution:"Maintain balanced fertilization, irrigation, and greenhouse environmental conditions."
+}
+
+}
+
+
+
+let dropArea = document.getElementById("dropArea")
+let fileInput = document.getElementById("image")
+
+
+
+dropArea.addEventListener("dragover",(e)=>{
+e.preventDefault()
+dropArea.style.background="#e6f9e2"
+})
+
+
+dropArea.addEventListener("dragleave",()=>{
+dropArea.style.background="#f8fff6"
+})
+
+
+dropArea.addEventListener("drop",(e)=>{
+
+e.preventDefault()
+
+fileInput.files = e.dataTransfer.files
+
+previewImage()
+
+dropArea.style.background="#f8fff6"
+
+})
+
+
+fileInput.addEventListener("change",previewImage)
+
+
+
+function previewImage(){
+
+let file=fileInput.files[0]
+
+if(!file) return
+
+document.getElementById("preview").src = URL.createObjectURL(file)
+
+}
+
+
+function predict(){
+
+let file=fileInput.files[0]
+
+if(!file) return
+
+document.getElementById("loadingOverlay").style.display="flex"
+
+let form=new FormData()
+form.append("image",file)
+
+fetch("/api/deficiency",{
+
+method:"POST",
+body:form
+
+})
+.then(r=>r.json())
+
+.then(data=>{
+
+document.getElementById("loadingOverlay").style.display="none"
+
+let key=data.prediction.toLowerCase()
+
+let details=info[key]
+
+document.getElementById("result").innerHTML=details.title
+
+document.getElementById("cause").innerHTML=
+"<b>Possible Causes:</b> "+details.cause
+
+document.getElementById("solution").innerHTML=
+"<b>Recommended Solution:</b> "+details.solution
+
+})
+
+}
+</script>
+
+
+</body>
+</html>
