@@ -91,8 +91,6 @@ This system integrates IoT hardware with the web application to enable real-time
 
 ---
 
-### 🌿 System Overview
-
 
 ---
 
