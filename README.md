@@ -9,7 +9,7 @@ This web application uses trained deep learning and computer vision models to de
 This web application uses separately trained models. You can find the training code below:
 
 - 🌿 Disease Detection (Faster R-CNN + FPN + EfficientNet-B4)  
-  👉 [Disease Detection Training Code](https://drive.google.com/drive/folders/1o69ZRhzx-y7Piha3jpoV7FIdCShSNY0y?usp=sharing)
+  👉 [Disease Detection Training Code]()
 
 - 🧪 Nutrient Deficiency Detection (EfficientNet-B0)  
   👉 [Nutrient Deficiency Training Code](YOUR_LINK_HERE)
@@ -30,7 +30,7 @@ Due to size constraints, the following model files are not included in this repo
 - `detector_model.pth`
 
 👉 These files are available here:  
-[Google Drive Link](YOUR_DRIVE_LINK)
+[Google Drive Link]([YOUR_DRIVE_LINK](https://drive.google.com/drive/folders/1o69ZRhzx-y7Piha3jpoV7FIdCShSNY0y?usp=sharing))
 
 Place them inside the `weights/` folder before running the project.
 
