@@ -30,7 +30,7 @@ Due to size constraints, the following model files are not included in this repo
 - `detector_model.pth`
 
 👉 These files are available here:  
-[Google Drive Link]([YOUR_DRIVE_LINK](https://drive.google.com/drive/folders/1o69ZRhzx-y7Piha3jpoV7FIdCShSNY0y?usp=sharing))
+[Google Drive Link](https://drive.google.com/drive/folders/1o69ZRhzx-y7Piha3jpoV7FIdCShSNY0y?usp=sharing)
 
 Place them inside the `weights/` folder before running the project.
 
