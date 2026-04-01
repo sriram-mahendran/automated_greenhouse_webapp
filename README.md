@@ -18,7 +18,7 @@ This web application uses separately trained models. You can find the training c
   👉 [Growth Estimation Training Code](https://github.com/sriram-mahendran/fyp-cv_growth_estimation_yolo_tomato_detection)
 
 - 💧 Irrigation Prediction (Random Forest Model)  
-  👉 [Irrigation Prediction Training Code](YOUR_LINK_HERE)
+  👉 [Irrigation Prediction Training Code](https://github.com/sriram-mahendran/fyp-irrigation_model_training)
 
 ---
 
