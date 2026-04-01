@@ -9,7 +9,7 @@ This web application uses trained deep learning and computer vision models to de
 This web application uses separately trained models. You can find the training code below:
 
 - 🌿 Disease Detection (Faster R-CNN + FPN + EfficientNet-B4)  
-  👉 [Disease Detection Training Code]()
+  👉 [Disease Detection Training Code](https://github.com/sriram-mahendran/fyp-tomato_leaf_disease_localization_detection)
 
 - 🧪 Nutrient Deficiency Detection (EfficientNet-B0)  
   👉 [Nutrient Deficiency Training Code](YOUR_LINK_HERE)
