@@ -100,3 +100,17 @@ Make sure you have Python installed, then install required dependencies:
 
 ```bash
 pip install -r requirements.txt
+
+
+```
+
+
+---
+
+## 🖼️ System Setup
+![Hardware Setup](assets/setup.jpg)
+
+## 📊 Dashboard
+![Dashboard](assets/dashboard.png)
+
+
