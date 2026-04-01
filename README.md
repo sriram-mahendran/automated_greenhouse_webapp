@@ -20,6 +20,9 @@ This web application uses separately trained models. You can find the training c
 -  Irrigation Prediction (Random Forest Model)  
    [Irrigation Prediction Training Code](https://github.com/sriram-mahendran/fyp-irrigation_model_training)
 
+-  Edge device Controller and Optimizer (Raspberry Pi)  
+   [Edge Device](https://github.com/sriram-mahendran/fyp-edge_ml_controller_optimizer)
+
 ---
 
 ## ⚠️ Model Weights
